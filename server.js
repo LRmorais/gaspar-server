@@ -12,6 +12,6 @@ app.post('/deploy', (req, res) => {
   return res.json({name, situation})
 })
 
-app.listen(3000, () => {
+app.listen(3333, () => {
   console.log('Rodando')
 })
