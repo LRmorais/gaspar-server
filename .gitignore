@@ -2,5 +2,6 @@ yarn-error.log
 .idea
 node_modules
 http-client.env.json
-
+dist
+.env
 .DS_Store
