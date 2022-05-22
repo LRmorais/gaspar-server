@@ -24,6 +24,43 @@ export const findAllUsers = async (
     });
   }
 };
+export const login = async (
+  req: Request,
+  res: Response,
+) => {
+  const {
+    email,
+    password,
+  } = req.body;
+  try {
+    const users = await User.findOne({
+      where: {
+        email,
+      },
+    });
+    if (!users) {
+      res.status(400).json({
+        users: null,
+        message: 'nenhum usuario cadastrado',
+      });
+    }
+    const encryptpassword = md5(password);
+    // @ts-ignore
+    if (encryptpassword !== users.password) {
+      res.status(400).json({
+        users: null,
+        message: 'senha errada',
+      });
+    }
+
+    return res.status(200).json(users);
+  } catch (e) {
+    return res.status(400).json({
+      users: null,
+      message: e,
+    });
+  }
+};
 export const createUser = async (
   req: Request,
   res: Response,
@@ -46,6 +83,7 @@ export const createUser = async (
     const user = await User.findOne({
       where: {
         cpf,
+        email,
       },
     });
 
@@ -56,7 +94,7 @@ export const createUser = async (
       });
     }
     const encryptpassword = md5(password);
-
+    console.log(password);
     let newUser;
 
     if (hasIfood === 1) {
@@ -64,10 +102,11 @@ export const createUser = async (
         hasIfood,
         name,
         idIfood,
+        email,
         phone,
         typeModel,
         cpf,
-        encryptpassword,
+        password: encryptpassword,
       });
     } else if (hasIfood === 0) {
       newUser = await User.create({
@@ -81,7 +120,7 @@ export const createUser = async (
         cnhImageFront,
         cnhImageBack,
         cpf,
-        password,
+        password: encryptpassword,
       });
     }
 

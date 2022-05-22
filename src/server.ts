@@ -17,7 +17,7 @@ app.listen(3333, async () => {
 
 // db.sync({ force: false }).then(() => {
 //   app.set('port', 3333);
-//   // UserModel.sync();
+//   User.sync();
 //   const server = http.createServer(app); // inicia o servidor
 //   server.listen(3333);
 // });
